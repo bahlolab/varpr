@@ -1,43 +1,49 @@
-#' Reads in the raw merged collab file.
+#' Reads in a variant file.
 #'
-#' \code{read_collab_file} reads in the merged_collab.txt file output by the MPS
-#' pipeline. It is basically a wrapper around \code{read.delim}, but the
-#' \code{na.strings} parameter is used to specify strings used throughout the
-#' file to denote NAs.
+#' \code{read_var_file} reads in a variant file output by the MPS pipeline i.e.
+#' merged_collab.txt. Note that it can be a subset of the original (raw) file;
+#' the main thing is that its column headers should not be processed beforehand.
+#' It is basically a wrapper around \code{read.delim}, but the \code{na.strings}
+#' is an 'empirical' parameter that specifies strings used throughout the file to
+#' denote NAs.
 #'
-#' @param fname The full file path to the merged_collab.txt file.
-#' @return The merged_collab.txt file as a data frame with \code{dplyr}'s tbl_df
-#'   class.
+#' @param fname The full file path to the variant file.
+#' @return The variant file as a data frame with \code{dplyr}'s tbl_df class.
+#' @section Warning: This function takes more than 10mins to read in a data frame
+#'   with > 7 million rows and 150 variables. \code{data.table}'s \code{fread}
+#'   function is considerably faster, but I've found that it automatically
+#'   converts column classes that were supposed to be numeric to character. I
+#'   haven't figured out why it's doing this yet.
 #' @seealso \code{\link{read.table}}, \code{\link[dplyr]{tbl_df}} for more
 #'   details.
 #' @examples
 #' \dontrun{
 #' full_path <- "~/Desktop/Fam1_merged_collab.txt"
-#' DF <- read_collab_file(file.path(full_path))
+#' DF <- read_var_file(file.path(full_path))
 #' }
-read_collab_file <- function(fname, ...){
-  tbl_df(read.delim(file = fname,
+read_var_file <- function(fname, ...){
+  dplyr::tbl_df(read.delim(file = fname,
                     stringsAsFactors = FALSE,
                     na.strings=c("NA", "N/A", "", "."), ...))
 }
 
-#' Reads in the raw merged collab file if stored as an R object (i.e. rds).
+#' Reads in a variant file stored as an rds object.
 #'
-#' \code{read_collab_obj} reads in the merged_collab.txt file if it has already
+#' \code{read_var_obj} reads in a variant file if it has already
 #' been stored as a single R object. It is basically a wrapper around
 #' \code{readRDS}, but it also wraps the object around \code{dplyr}'s tbl_df
 #' class.
 #'
-#' @param fname The full file path to the merged_collab.rds object.
-#' @return The merged_collab.txt file as a data frame with \code{dplyr}'s tbl_df
+#' @param fname The full file path to the variant object.
+#' @return The variant file as a data frame with \code{dplyr}'s tbl_df
 #'   class.
 #' @seealso \code{\link{readRDS}}, \code{\link[dplyr]{tbl_df}} for more
 #'   details.
 #' @examples
 #' \dontrun{
 #' full_path <- "~/Desktop/Fam1_merged_collab.rds"
-#' DF <- read_collab_obj(file.path(full_path))
+#' DF <- read_var_obj(file.path(full_path))
 #' }
-read_collab_obj <- function(fname, ...){
-  tbl_df(readRDS(fname))
+read_var_obj <- function(fname, ...){
+  dplyr::tbl_df(readRDS(fname))
 }
