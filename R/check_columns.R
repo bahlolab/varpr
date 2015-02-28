@@ -12,7 +12,7 @@
 #' }
 var_cl_main_ok <- function(vars) {
   stopifnot(is.data.frame(vars))
-  stopifnot(varpr::var_names_ok(vars))
+  stopifnot(var_names_ok(vars))
   exp_df <- data.frame(
     col_nm = c("CHROM", "START", "END", "REF", "ALT", "DP", "QUAL",
                "MQ", "region", "gene", "change", "annotation", "dbSNP135",
@@ -46,7 +46,7 @@ var_cl_main_ok <- function(vars) {
 #' }
 var_cl_sample_ok <- function(vars) {
   stopifnot(is.data.frame(vars))
-  stopifnot(varpr::var_names_ok(vars))
+  stopifnot(var_names_ok(vars))
   all_col_cl <- sapply(vars, class) # named vector
   samp_col_nm <- paste0("_", c("GT", "GQ", "DP", "DPR", "DPA"), "$")
   exp_samp_col_cl <- c("character", rep("integer", 3), "character")

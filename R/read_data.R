@@ -46,4 +46,5 @@ read_var_file <- function(fname, ...){
 #' }
 read_var_obj <- function(fname, ...){
   dplyr::tbl_df(readRDS(fname))
+  # just a comment
 }
