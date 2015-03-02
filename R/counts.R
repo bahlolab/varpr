@@ -1,4 +1,4 @@
-#' Counts the number of SNVs and INDELs (approximate estimation).
+#' Counts the number of SNVs and INDELs.
 #'
 #' \code{vartype_count} reads in the REF and ALT variables from the variant file
 #' and counts how many variants "rows" there are with a single base. This should

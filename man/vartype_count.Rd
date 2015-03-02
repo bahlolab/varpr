@@ -2,7 +2,7 @@
 % Please edit documentation in R/counts.R
 \name{vartype_count}
 \alias{vartype_count}
-\title{Counts the number of SNVs and INDELs (approximate estimation).}
+\title{Counts the number of SNVs and INDELs.}
 \usage{
 vartype_count(ref, alt)
 }

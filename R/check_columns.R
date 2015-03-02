@@ -74,7 +74,7 @@ var_names_ok <- function(vars){
   vars_nm <- names(vars)
   standard_nm <- c("CHROM", "START", "END",
                    "region", "change", "pph2_pred", "SIFT.Pred")
-  nm_ok <- standard_nm %in% df_nm
+  nm_ok <- standard_nm %in% vars_nm
   if (!all(nm_ok)) {
     message("The following names need changing: ",
             paste(standard_nm[!nm_ok], collapse = ", "))
