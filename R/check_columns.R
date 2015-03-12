@@ -51,10 +51,11 @@ var_cl_sample_ok <- function(vars) {
   samp_col_nm <- paste0("_", c("GT", "GQ", "DP", "DPR", "DPA"), "$")
   exp_samp_col_cl <- c("character", rep("integer", 3), "character")
   # find which column names contain the sample-specific strings
-  samp_col_cl <- sapply(samp_col_nm, function(pat) {
+  samp_col_cl <- lapply(samp_col_nm, function(pat) {
     ind <- grepl(pat, names(all_col_cl))
     all_col_cl[ind]})
-  joint_col_cl <- apply(samp_col_cl, 2, function(col) names(table(col)))
+  stopifnot(all(sapply(samp_col_cl, function(el) length(unique(el))) == 1))
+  joint_col_cl <- sapply(samp_col_cl, function(el) names(table(el)))
   if (all(joint_col_cl == exp_samp_col_cl)) return(TRUE)
   FALSE
 }
@@ -81,4 +82,20 @@ var_names_ok <- function(vars){
     return(FALSE)
   }
   TRUE
+}
+
+#' Are the variable classes and names for the vars as expected?
+#'
+#' \code{var_all_ok} is a convenience function that performs multiple varpr checks
+#' related to the classes and names of variables in the variant file.
+#' @param vars The data frame of vars.
+#' @return A logical vector of length one.
+#' @examples
+#' \dontrun{
+#' var_all_ok(vars) # assumes you have a vars data frame
+#' }
+var_all_ok <- function(vars) {
+  funcs <- list(var_names_ok, var_cl_sample_ok, var_cl_main_ok)
+  res <- sapply(funcs, function(f) f(vars))
+  all(res)
 }
