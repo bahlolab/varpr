@@ -4,26 +4,26 @@
 \alias{vartype_count}
 \title{Counts the number of SNVs and INDELs.}
 \usage{
-vartype_count(ref, alt)
+vartype_count(vars)
 }
 \arguments{
-\item{ref,alt}{The REF and ALT variables from the variant file.}
+\item{vars}{The vars file that contains the REF and ALT variables.}
 }
 \value{
-A data frame with the counts of SNVs and INDELs.
+A data frame with the counts of SNVs, INDELs and Total.
 }
 \description{
 \code{vartype_count} reads in the REF and ALT variables from the variant file
-and counts how many variants "rows" there are with a single base. This should
+and counts how many variant "rows" there are with a single base. This should
 imply a SNV, although exceptions to this are quite possible (can't think of an
 example right now).
 }
 \examples{
 \dontrun{
-vartype_count(vars$REF, vars$ALT) # assumes you have a vars data frame
+vartype_count(vars) # assumes you have a vars data frame
 }
 }
 \seealso{
-\code{\link{grep}}
+\code{\link{vartype_count_per_chr}}.
 }
 
