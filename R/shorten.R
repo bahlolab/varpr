@@ -11,6 +11,7 @@
 #' tmp <- shorten_region(vars$region)
 #' table(tmp, useNA = "ifany")
 #' }
+#' @export
 shorten_region <- function(region_vec) {
   old_reg <- c("downstream", "exonic", "exonic;splicing", "intergenic",
                "intronic", "ncRNA_exonic", "ncRNA_intronic", "ncRNA_splicing",
@@ -38,6 +39,7 @@ shorten_region <- function(region_vec) {
 #' tmp <- shorten_region(vars$change)
 #' table(tmp, useNA = "ifany")
 #' }
+#' @export
 shorten_change <- function(change_vec) {
   old_ch <- c("frameshift deletion", "frameshift insertion",
               "nonframeshift deletion", "nonframeshift insertion",
@@ -63,6 +65,7 @@ shorten_change <- function(change_vec) {
 #' tmp <- shorten_pph2(vars$pph2_pred)
 #' table(tmp, useNA = "ifany")
 #' }
+#' @export
 shorten_pph2 <- function(pph2_vec) {
   old_pph2 <- c("benign", "possibly damaging", "probably damaging", "unknown")
   new_pph2 <- c("ben", "dm_po", "dm_pr", "unkn")
@@ -82,6 +85,7 @@ shorten_pph2 <- function(pph2_vec) {
 #' tmp <- shorten_sift(vars$SIFT.pred)
 #' table(tmp, useNA = "ifany")
 #' }
+#' @export
 shorten_sift <- function(sift_vec) {
   old_sift <- c("DAMAGING", "DAMAGING *Warning! Low confidence.",
                 "Damaging due to stop", "Not scored", "TOLERATED")

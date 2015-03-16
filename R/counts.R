@@ -12,6 +12,7 @@
 #' \dontrun{
 #' vartype_count(vars) # assumes you have a vars data frame
 #' }
+#' @export
 vartype_count <- function(vars) {
   stopifnot(is.data.frame(vars))
   varn <- names(vars)
@@ -44,13 +45,14 @@ vartype_count <- function(vars) {
 #' \dontrun{
 #' vartype_count_per_chr(vars) # assumes you have a vars data frame
 #' }
+#' @importFrom dplyr "%>%"
+#' @export
 vartype_count_per_chr <- function(vars) {
   stopifnot(is.data.frame(vars))
-  varn <- names(vars)
-  stopifnot("CHROM" %in% varn)
-  vartype_tab <- plyr::ddply(.data = vars, .variables = ~CHROM, .fun = function(x) {
-    vartype_count(x)
-  })
+  stopifnot("CHROM" %in% names(vars))
+  vartype_tab <- vars %>%
+    dplyr::group_by(CHROM) %>%
+    dplyr::do(data.frame(vartype_count(.)))
   out <- reshape2::dcast(data = vartype_tab, formula = CHROM ~ VarType, value.var = "Count")
   out <- out[gtools::mixedorder(out$CHROM),]
   rownames(out) <- NULL
@@ -60,7 +62,7 @@ vartype_count_per_chr <- function(vars) {
 
 #' Returns the number of different genotypes per sample.
 #'
-#' \code{genotype_table_per_sample} reads in the genotype variables from the
+#' \code{gt_tab_per_sample} reads in the genotype variables from the
 #' variant file and returns the number of different genotypes in each of these
 #' variables.
 #'
@@ -70,13 +72,15 @@ vartype_count_per_chr <- function(vars) {
 #' @seealso \code{\link{table}}.
 #' @examples
 #' \dontrun{
-#' genotype_table_per_sample(vars, rowSums = TRUE) # assumes you have a vars data frame
+#' gt_tab_per_sample(vars, rowSums = TRUE) # assumes you have a vars data frame
 #' }
-genotype_table_per_sample <- function(vars, rowSums = TRUE) {
+#' @export
+gt_tab_per_sample <- function(vars, rowSums = TRUE) {
   stopifnot(is.data.frame(vars))
   pat <- "_GT$"
   # which columns are GT columns?
   ind <- grepl(pat, names(vars))
+  if (sum(ind) == 1L) warning("Only one sample in dataset!")
   gt_col <- vars[ind]
   gt_list <- lapply(gt_col, table, useNA = "ifany")
   # Transform each table to a data.frame with n_gt columns and 1 row
@@ -85,7 +89,7 @@ genotype_table_per_sample <- function(vars, rowSums = TRUE) {
   rownames(gt_tab) <- names(gt_list_to_df)
 
   if (rowSums) {
-    return(cbind(gt_tab, tot = rowSums(gt_tab, na.rm = TRUE)))
+    return(cbind(gt_tab, Tot = rowSums(gt_tab, na.rm = TRUE)))
   }
   gt_tab
 }
@@ -104,6 +108,7 @@ genotype_table_per_sample <- function(vars, rowSums = TRUE) {
 #' maf_tab(vars$aaf.1KG) # assumes you have a vars data frame
 #' maf_tab(vars$esp6500_all) # assumes you have a vars data frame
 #' }
+#' @export
 maf_tab <- function(maf_vec) {
   stopifnot(is.atomic(maf_vec), is.numeric(maf_vec))
   novel <- sum(is.na(maf_vec))

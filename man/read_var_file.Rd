@@ -2,12 +2,14 @@
 % Please edit documentation in R/read_data.R
 \name{read_var_file}
 \alias{read_var_file}
-\title{Reads in a variant file.}
+\title{Read in a variant file.}
 \usage{
 read_var_file(fname, ...)
 }
 \arguments{
 \item{fname}{The full file path to the variant file.}
+
+\item{...}{Additional arguments to be passed to \code{\link{read.delim}}.}
 }
 \value{
 The variant file as a data frame with \code{dplyr}'s tbl_df class.

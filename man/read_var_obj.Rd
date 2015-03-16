@@ -2,9 +2,9 @@
 % Please edit documentation in R/read_data.R
 \name{read_var_obj}
 \alias{read_var_obj}
-\title{Reads in a variant file stored as an rds object.}
+\title{Read in a variant file stored as an rds object.}
 \usage{
-read_var_obj(fname, ...)
+read_var_obj(fname)
 }
 \arguments{
 \item{fname}{The full file path to the variant object.}

@@ -10,6 +10,7 @@
 #' \dontrun{
 #' var_cl_main_ok(vars) # assumes you have a vars data frame
 #' }
+#' @export
 var_cl_main_ok <- function(vars) {
   stopifnot(is.data.frame(vars))
   stopifnot(var_names_ok(vars))
@@ -44,6 +45,7 @@ var_cl_main_ok <- function(vars) {
 #' \dontrun{
 #' var_cl_sample_ok(vars) # assumes you have a vars data frame
 #' }
+#' @export
 var_cl_sample_ok <- function(vars) {
   stopifnot(is.data.frame(vars))
   stopifnot(var_names_ok(vars))
@@ -71,6 +73,7 @@ var_cl_sample_ok <- function(vars) {
 #' \dontrun{
 #' var_names_ok(vars) # assumes you have a vars data frame
 #' }
+#' @export
 var_names_ok <- function(vars){
   vars_nm <- names(vars)
   standard_nm <- c("CHROM", "START", "END",
@@ -94,6 +97,7 @@ var_names_ok <- function(vars){
 #' \dontrun{
 #' var_all_ok(vars) # assumes you have a vars data frame
 #' }
+#' @export
 var_all_ok <- function(vars) {
   funcs <- list(var_names_ok, var_cl_sample_ok, var_cl_main_ok)
   res <- sapply(funcs, function(f) f(vars))

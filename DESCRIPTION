@@ -16,7 +16,6 @@ Imports: car,
     ggplot2 (>= 1.0.0),
     gtools (>= 3.4.1),
     reshape2 (>= 1.4.1),
-    magrittr (>= 1.5),
     xtable (>= 1.7-4)
 Suggests: knitr
 VignetteBuilder: knitr
