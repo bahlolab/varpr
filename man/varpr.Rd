@@ -8,7 +8,4 @@
 \description{
 The varpr package will be awesome.
 }
-\section{Foo functions The foo functions bla bla...}{
-
-}
 
