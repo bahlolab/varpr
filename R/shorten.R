@@ -92,3 +92,30 @@ shorten_sift <- function(sift_vec) {
   new_sift <- c("dam", "dam_lc", "dam_st", "not_sc", "tol")
   plyr::mapvalues(sift_vec, old_sift, new_sift)
 }
+
+#' Shorten REF/ALT column from variant file
+#'
+#' \code{shorten_refalt} shortens the REF/ALT column from the variant file in
+#' order to print results in a more efficient manner.
+#'
+#' @param x The character vector containing REF/ALT values.
+#' @param max_len The maximum number of characters used to print out the values.
+#' @return A character vector with shortened REF/ALT values.
+#' A star '*' is appended as a flag.
+#' @seealso \code{\link{strtrim}}
+#' @examples
+#' \dontrun{
+#' shorten_refalt(vars$REF)
+#' shorten_refalt(vars$ALT)
+#' }
+#' @export
+shorten_refalt <- function(x, max_len = 5) {
+  len_vec <- nchar(x)
+  wide <- len_vec > max_len
+  if (any(wide)) {
+    # trim the string and append a star
+    x[wide] <- paste0(strtrim(x[wide], max_len - 1), "*")
+  }
+}
+
+
