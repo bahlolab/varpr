@@ -37,48 +37,63 @@ gt_tab_per_sample <- function(vars, rowSums = TRUE) {
   gt_tab
 }
 
+
+
+
+#' Genotype table per family.
+#'
+#' \code{gt_tab_per_fam} reads in the genotype variables from the
+#' variant file, groups them by individual family, and returns the number of
+#' different genotypes in each of these groups.
+#'
+#' @param vars The data frame of vars.
+#' @return A data frame with the families in rows and the different
+#' genotypes in columns, and the counts of each genotype per family
+#' in the cells.
+#' @seealso \code{\link{table}}.
+#' @examples
+#' \dontrun{
+#' gt_tab_per_fam(vars) # assumes you have a vars data frame
+#' }
+#' @export
 gt_tab_per_fam <- function(vars) {
+  ## which columns are GT columns
+  gt_col <- vars[varpr::is_gt_col(vars)]
+  # find unique genotypes
+  gt <- unique(unlist(gt_col))
+  # find families
+  fam <- gsub("\\.[0-9]_GT$", "", names(gt_col))
 
+  # Counts number of gt occurrences in col atomic vector
+  count_gt <- function(gt, col) {
+    vapply(X = gt, FUN = function(genotype) sum(col %in% genotype), FUN.VALUE = integer(1))
+  }
+
+  dat <- setNames(lapply(unique(fam), varpr::is_gt_col_for_fam, vars = vars),
+                  unique(fam))
+  dat[] <- lapply(dat, function(ind) vars[ind])
+
+  apply2 <- function(df, gt) {
+    out <- as.data.frame(t(df))
+    lapply(out, count_gt, gt = gt)
+  }
+
+  dat[] <- lapply(dat, apply2, gt)
+
+  list_of_tabs_to_df <- function(tab_list) {
+    dat <- lapply(tab_list, function(tab) as.data.frame(t(as.matrix(tab))))
+    return(dplyr::bind_rows(dat))
+  }
+
+  dat[] <- lapply(dat, list_of_tabs_to_df)
+
+  change_na_nm <- function(df) {
+    names(df)[is.na(names(df))] <- "NotAv"
+    df
+  }
+
+  dat[] <- lapply(dat, change_na_nm)
+  dat <- dplyr::tbl_df(plyr::ldply(dat, .id = "Family"))
+  dat
 }
 
-#' Which columns are GT columns?
-#'
-#' \code{is_gt_col} uses \code{\link{grepl}} to check whether each column
-#' name contains the string "_GT" or not.
-#'
-#' @param vars The data frame of vars.
-#' @param pat character: the pattern which matches a typical genotype column
-#' (default: "_GT$").
-#' @param pat logical: should the sum of genotypes per sample (row) be output
-#' (default: TRUE)?
-#' @return a logical vector where the ith TRUE element means that the ith column
-#' is a genotype column.
-#' @seealso \code{\link{grepl}}.
-#' @examples
-#' \dontrun{
-#' is_gt_col(vars) # assumes you have a vars data frame
-#' }
-#' @export
-is_gt_col <- function(vars, pat = "_GT$") {
-  return(grepl(pat, names(vars)))
-}
-
-#' Which columns are genotype columns for specified family?
-#'
-#' \code{is_gt_col_for_fam} uses \code{\link{grepl}} to check whether each column
-#' name contains the string "<fam>_GT" or not.
-#'
-#' @param vars The data frame of vars.
-#' @param fam character: the family name
-#' @return a logical vector where the ith TRUE element means that the ith column
-#' is a genotype column belonging to family <fam>.
-#' @seealso \code{\link{grepl}}.
-#' @examples
-#' \dontrun{
-#' is_gt_col_for_fam(vars, "fam123") # assumes you have a vars data frame
-#' }
-#' @export
-is_gt_col_for_fam <- function(vars, fam){
-  stopifnot(is.data.frame(vars))
-  grepl(paste0(fam, ".*_GT$"), names(vars))
-}
