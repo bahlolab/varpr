@@ -16,7 +16,7 @@
 #' }
 #' @export
 format_comma <- function(x, trim = TRUE, ...) {
-  format(x, big.mark = ",", trim = TRUE...)
+  format(x, big.mark = ",", trim = trim, ...)
 }
 
 #' Format floating point numbers with two decimals for pretty printing

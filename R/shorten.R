@@ -116,6 +116,7 @@ shorten_refalt <- function(x, max_len = 5) {
     # trim the string and append a star
     x[wide] <- paste0(strtrim(x[wide], max_len - 1), "*")
   }
+  x
 }
 
 
