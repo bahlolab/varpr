@@ -28,6 +28,11 @@ gt_tab_per_sample <- function(vars, rowSums = TRUE) {
   gt_list <- lapply(gt_col, table, useNA = "ifany")
   # Transform each table to a data.frame with n_gt columns and 1 row
   gt_list_to_df <- lapply(gt_list, function(tab) as.data.frame(t(as.matrix(tab))))
+  # Turn the "NA" into "NotAv"
+  gt_list_to_df[] <- lapply(gt_list_to_df,
+                            function(df) {
+                              names(df)[is.na(names(df))] <- "NotAv"
+                              df })
   gt_tab <- dplyr::bind_rows(gt_list_to_df)
   rownames(gt_tab) <- names(gt_list_to_df)
 
