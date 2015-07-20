@@ -43,11 +43,13 @@ shorten_region <- function(region_vec) {
 shorten_change <- function(change_vec) {
   old_ch <- c("frameshift deletion", "frameshift insertion",
               "nonframeshift deletion", "nonframeshift insertion",
-              "nonframeshift substitution", "nonsynonymous SNV",
+              "frameshift substitution", "nonframeshift substitution",
+              "nonsynonymous SNV",
               "stopgain", "stoploss", "synonymous SNV", "unknown")
   new_ch <- c("f_del", "f_ins",
               "nf_del", "nf_ins",
-              "nf_sub", "ns_SNV",
+              "f_sub", "nf_sub",
+              "ns_SNV",
               "sg_SNV", "sl_SNV", "sy_SNV", "unkn")
   plyr::mapvalues(change_vec, old_ch, new_ch)
 }
