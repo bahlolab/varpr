@@ -10,7 +10,7 @@
 #' @seealso \code{\link[dplyr]{mutate}}
 #' @examples
 #' \dontrun{
-#' tidy_vars(vars, "CANVAS886.*_GT$") # assumes you have a vars data frame
+#' tidy_vars(vars, "famA.*_GT$") # assumes you have a vars data frame
 #' }
 #' @export
 tidy_vars <- function(vars, samp_nm) {
@@ -22,11 +22,11 @@ tidy_vars <- function(vars, samp_nm) {
   stopifnot(var_names_ok(vars))
 
   vars <- vars %>%
-    rename(
+    dplyr::rename(
       chrom = CHROM, start = START, end = END, ref = REF, alt = ALT,
       maf_kg = aaf.1KG, maf_esp = esp6500_all, dbsnp = dbSNP135,
       pph2 = pph2_pred, sift = SIFT.Pred) %>%
-    mutate(
+    dplyr::mutate(
       chrom = sub("chr", "", chrom),
       gene = clean_genes(gene),
       start = format_comma(start),

@@ -2,20 +2,22 @@ Package: varpr
 Type: Package
 Title: Prioritises variants from the merged_collab file
 Version: 0.1
-Date: 2015-03-12
-Authors@R: person("Peter", "Diakumis", email = "diakumis@wehi.edu.au",
+Authors@R: person("Peter", "Diakumis", email = "peterdiakumis@gmail.com",
     role = c("aut", "cre"))
-Description: This package contains functions which help in the prioritisation of
-    variants found in the "fam_merged_collab.txt" file
+Description: Prioritisation of
+    variants found in the "merged_collab.txt" file
     output by the Bahlo lab MPS pipeline.
 License: MIT
 LazyData: TRUE
-Imports: car,
-    plyr (>= 1.8.1),
-    dplyr (>= 0.4.1),
-    ggplot2 (>= 1.0.0),
-    gtools (>= 3.4.1),
-    reshape2 (>= 1.4.1),
-    xtable (>= 1.7-4)
-Suggests: knitr
+Imports:
+    car,
+    plyr,
+    dplyr,
+    ggplot2,
+    gtools,
+    reshape2,
+    xtable,
+Suggests:
+    knitr
 VignetteBuilder: knitr
+RoxygenNote: 5.0.1
